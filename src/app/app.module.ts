@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ProductsModule } from './products/products.module';
+import { ProductGuard } from './products/product.guard';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { ProductsModule } from './products/products.module';
     ProductsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [ProductGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
