@@ -8,6 +8,6 @@ import { ConvertToSpacesPipe } from './convert-to-spaces.pipe';
     CommonModule
   ],
   declarations: [StarComponent, ConvertToSpacesPipe],
-  exports: [ConvertToSpacesPipe]
+  exports: [StarComponent, ConvertToSpacesPipe]
 })
 export class SharedModule { }
