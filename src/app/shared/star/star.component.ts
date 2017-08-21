@@ -10,12 +10,11 @@ export class StarComponent implements OnInit, OnChanges {
   starWidth: number;
   fiveStarsWidthPx = 86;
   totalStarCount = 5;
-  rating = 1;
+  rating = 4;
 
   constructor() { }
 
   ngOnInit() {
-    this.starWidth = this.rating * this.fiveStarsWidthPx / this.totalStarCount;
   }
 
   ngOnChanges(): void {
