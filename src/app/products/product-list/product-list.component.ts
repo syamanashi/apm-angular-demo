@@ -26,16 +26,19 @@ export class ProductListComponent implements OnInit {
     this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
   }
 
-  filteredProducts: Product[] = [];
-
   products: Product[] = [];
+  filteredProducts: Product[] = [];
+  errorMessage: string;
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) { }
 
   ngOnInit() {
-    console.log('in OnInit yo');
-    this.products = this.productService.getProducts();
-    this.filteredProducts = this.products;
+    this.productService.getProducts().subscribe(data => {
+      this.products = data;
+      this.filteredProducts = this.products;
+    },
+      error => this.errorMessage = <any>error
+    );
   }
 
   toggleImage() {
