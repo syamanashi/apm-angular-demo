@@ -14,8 +14,8 @@ import { ProductsModule } from './products/products.module';
   ],
   imports: [
     BrowserModule,
-    ProductsModule,
     HttpClientModule,
+    ProductsModule,
     AppRoutingModule,
   ],
   providers: [],
