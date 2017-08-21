@@ -1,6 +1,13 @@
-# APM
+# APM - Acme Product Manager (demo app)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.0.
+This project is based on the Acme Product Manager app developed throughout the series of Pluralsight courses authored by Deborah Kurata:
+- Angular: Getting Started
+- Angular Reactive Forms
+- Angular Routing
+
+The biggest diversion of this app from the above tutorials was the use of Angular CLI for as many steps as possible.  Each CLI command used is included in the respective commit messages.  Some other subtle changes were made where suitable to conform as much as possible to the Angular Style Guide.
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.1.
 
 ## Development server
 
