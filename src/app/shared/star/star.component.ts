@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'pm-star',
@@ -12,6 +12,8 @@ export class StarComponent implements OnInit, OnChanges {
   totalStarCount = 5;
   @Input() rating: number;
 
+  @Output() ratingClicked: EventEmitter<string> = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit() {
@@ -20,6 +22,11 @@ export class StarComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     // this.starWidth = this.rating * 86 / 5;
     this.starWidth = this.rating * this.fiveStarsWidthPx / this.totalStarCount;
+  }
+
+  onClick() {
+    // The emit method raises the event to the container (product-list in this example) - where event binding is used to listen for and respond to this event.
+    this.ratingClicked.emit(`The rating ${this.rating} was clicked!!!`);
   }
 
 }
