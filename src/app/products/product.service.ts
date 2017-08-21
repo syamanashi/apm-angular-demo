@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
 
 import { Product } from './product';
 
@@ -17,7 +18,12 @@ export class ProductService {
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productUrl)
-      .do(data => console.log('All: ' + JSON.stringify(data)))
+      // .do(data => console.log('All: ' + JSON.stringify(data)))
+      .catch(this.handleError);
+  }
+
+  getProduct(id: number | string): Observable<Product> {
+    return this.getProducts().map(products => products.filter(product => product.productId === +id)[0])
       .catch(this.handleError);
   }
 
