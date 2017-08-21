@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
 import { ProductListComponent } from './product-list/product-list.component';
+import { ProductService } from './product.service';
 
 @NgModule({
   imports: [
@@ -14,5 +15,6 @@ import { ProductListComponent } from './product-list/product-list.component';
   ],
   declarations: [ProductListComponent],
   exports: [ProductListComponent],
+  providers: [ProductService],
 })
 export class ProductsModule { }
