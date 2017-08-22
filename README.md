@@ -1,4 +1,4 @@
-# APM - Acme Product Manager (demo app)
+# APM-Angular-Demo - Acme Product Manager (Angular demo app)
 
 This project is based on the Acme Product Manager app developed throughout the series of Pluralsight courses authored by Deborah Kurata:
 - Angular: Getting Started
