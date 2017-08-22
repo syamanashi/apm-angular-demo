@@ -23,13 +23,25 @@ export class ProductService {
   }
 
   getProduct(id: number | string): Observable<Product> {
-    return this.getProducts().map(products => products.filter(product => product.productId === +id)[0])
+    // return this.getProducts().map(products => products.filter(product => product.productId === +id)[0])
+    return this.getProducts().map((products: Product[]) => products.find(product => product.productId === +id))
       .catch(this.handleError);
   }
 
   private handleError(err: HttpErrorResponse): Observable<Error> {
-    console.log(err.message);
-    return Observable.throw(err.message);
+    // in a real world app, we may send the server to some remote logging infrastructure
+    // instead of just logging it to the console
+    let errorMessage = '';
+    if (err.error instanceof Error) {
+      // A client-side or network error occurred. Handle it accordingly.
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+    }
+    console.error(errorMessage);
+    return Observable.throw(errorMessage);
   }
 
 }
