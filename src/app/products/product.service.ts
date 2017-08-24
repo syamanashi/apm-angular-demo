@@ -28,8 +28,8 @@ export class ProductService {
       return Observable.of(this.initializeProduct());
     }
 
-    // return this.getProducts().map(products => products.filter(product => product.productId === +id)[0])
-    return this.getProducts().map((products: Product[]) => products.find(product => product.productId === +id))
+    // return this.getProducts().map(products => products.filter(product => product.id === +id)[0])
+    return this.getProducts().map((products: Product[]) => products.find(product => product.id === +id))
       .catch(this.handleError);
   }
 
@@ -52,7 +52,7 @@ export class ProductService {
   initializeProduct(): Product {
     // Return an initialized object
     return {
-        productId: 0,
+        id: 0,
         productName: null,
         productCode: null,
         releaseDate: null,

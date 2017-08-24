@@ -104,7 +104,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.product = product;
 
-    if (this.product.productId === 0) {
+    if (this.product.id === 0) {
       this.pageTitle = 'Add Product';
     } else {
       this.pageTitle = `Edit Product: ${this.product.productName}`;
