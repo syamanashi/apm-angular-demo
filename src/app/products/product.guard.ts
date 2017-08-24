@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+
+import { ProductEditComponent } from './product-edit/product-edit.component';
 
 @Injectable()
 export class ProductGuard implements CanActivate {
@@ -10,7 +12,6 @@ export class ProductGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-
     const id = +next.url[1].path;
     if (isNaN(id) || id < 1) {
       alert('Invalid product Id: ' + id); // Do not display this alert. Rather, route to an error page with an error message.
@@ -18,6 +19,18 @@ export class ProductGuard implements CanActivate {
       return false;
     }
     return true;
-
   }
+}
+
+@Injectable()
+export class ProductEditGuard implements CanDeactivate<ProductEditComponent> {
+
+  canDeactivate(component: ProductEditComponent): boolean {
+    if (component.productForm.dirty) {
+      const productName = component.productForm.get('productName').value || 'New Product';
+      return confirm(`Navigate away and lose all changes to ${productName}?`);
+    }
+    return true;
+  }
+
 }

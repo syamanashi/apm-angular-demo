@@ -108,7 +108,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private onProductRetrieved(product: Product): void {
-    // Reset the form if the form is ready.
+    // Reset the form if the form is loaded.
     if (this.productForm) {
       this.productForm.reset();
     }
@@ -131,7 +131,6 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onDelete() {
-    console.log('delete clicked!');
     if (this.product.id === 0 ) {
       // Don't delete. It was never saved.
       this.resetThenGotoProducts();
