@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
+import { NumberValidators } from '../../shared/number.validator';
 
 
 @Component({
@@ -15,14 +17,24 @@ import { ProductService } from '../product.service';
 export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private paramsSubscription: Subscription;
+  pageTitle = 'Edit Product';
+  productForm: FormGroup;
   product: Product;
 
   constructor(
+    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private productService: ProductService,
   ) {}
 
   ngOnInit() {
+    this.productForm = this.formBuilder.group({
+      productName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      productCode: ['', Validators.required],
+      starRating: ['', NumberValidators.range(1, 5)],
+      tags: this.formBuilder.array([]),
+      description: ''
+    });
 
     // Read the product Id from the route parameter
     this.paramsSubscription = this.route.params.subscribe(params => {
@@ -44,6 +56,10 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       this.product = product;
       console.log(product);
     });
+  }
+
+  onSubmit() {
+    console.log(this.productForm.value);
   }
 
 }
