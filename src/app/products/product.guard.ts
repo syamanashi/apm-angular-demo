@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { ProductEditComponent } from './product-edit/product-edit.component';
 
 @Injectable()
-export class ProductGuard implements CanActivate {
+export class ProductDetailGuard implements CanActivate {
 
   constructor(private router: Router) { }
 
