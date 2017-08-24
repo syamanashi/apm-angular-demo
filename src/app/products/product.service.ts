@@ -6,6 +6,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
 
 import { Product } from './product';
 
@@ -23,6 +24,10 @@ export class ProductService {
   }
 
   getProduct(id: number | string): Observable<Product> {
+    if (id === 0) {
+      return Observable.of(this.initializeProduct());
+    }
+
     // return this.getProducts().map(products => products.filter(product => product.productId === +id)[0])
     return this.getProducts().map((products: Product[]) => products.find(product => product.productId === +id))
       .catch(this.handleError);
@@ -43,5 +48,19 @@ export class ProductService {
     console.error(errorMessage);
     return Observable.throw(errorMessage);
   }
+
+  initializeProduct(): Product {
+    // Return an initialized object
+    return {
+        productId: 0,
+        productName: null,
+        productCode: null,
+        releaseDate: null,
+        price: null,
+        description: null,
+        starRating: null,
+        imageUrl: null,
+    };
+}
 
 }
