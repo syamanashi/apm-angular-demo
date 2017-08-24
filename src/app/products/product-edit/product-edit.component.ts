@@ -91,7 +91,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
 
     // Merge the blur event observable with the valueChanges observable.
-    Observable.merge(this.productForm.valueChanges, ...controlBlurs).subscribe(value => {
+    Observable.merge(this.productForm.valueChanges, ...controlBlurs).debounceTime(800).subscribe(value => {
       this.displayMessage = this.genericValidatator.processMessages(this.productForm);
     });
   }
