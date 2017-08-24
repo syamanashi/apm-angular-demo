@@ -35,10 +35,15 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidatator: GenericValidator;
 
+  get tags(): FormArray {
+    return <FormArray>this.productForm.get('tags');
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private productService: ProductService,
+    private router: Router,
   ) {
     // Defines all of the validation messages for the form.
     // These could instead be retrieved from a file or database.
@@ -121,6 +126,20 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onSubmit() {
     console.log(this.productForm.value);
+  }
+
+  addTag() {
+    this.tags.push(new FormControl());
+  }
+
+  onDelete() {
+    console.log('delete clicked!');
+  }
+
+  onCancel() {
+    // Reset the form to clear the flags
+    this.productForm.reset();
+    this.router.navigate(['/products']);
   }
 
 }
