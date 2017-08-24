@@ -120,9 +120,10 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.productForm.patchValue({
       productName: this.product.productName,
       productCode: this.product.productCode,
-      starRating: this.product.starRating
+      starRating: this.product.starRating,
+      description: this.product.description,
     });
-    console.log(product);
+    this.productForm.setControl('tags', this.formBuilder.array(this.product.tags || []));
   }
 
   onSubmit() {
