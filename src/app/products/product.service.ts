@@ -33,6 +33,16 @@ export class ProductService {
       .catch(this.handleError);
   }
 
+  saveProduct(product: Product): Observable<Product> {
+    console.log(product);
+    return Observable.of(product);
+  }
+
+  deleteProduct(id: number | string): Observable<number> {
+    console.log(id + ' deleted!');
+    return Observable.of(+id);
+  }
+
   private handleError(err: HttpErrorResponse): Observable<Error> {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

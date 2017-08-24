@@ -96,6 +96,10 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  addTag() {
+    this.tags.push(new FormControl());
+  }
+
   getProduct(id: number): void {
     this.productService.getProduct(id).subscribe(
       (product: Product) => this.onProductRetrieved(product),
@@ -126,19 +130,44 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.productForm.setControl('tags', this.formBuilder.array(this.product.tags || []));
   }
 
-  onSubmit() {
-    console.log(this.productForm.value);
-  }
-
-  addTag() {
-    this.tags.push(new FormControl());
-  }
-
   onDelete() {
     console.log('delete clicked!');
+    if (this.product.id === 0 ) {
+      // Don't delete. It was never saved.
+      this.resetThenGotoProducts();
+    } else {
+      if (confirm(`Really delete the product: ${this.product.productName}?`)) {
+        this.productService.deleteProduct(this.product.id).subscribe(
+          () => this.resetThenGotoProducts(),
+          (error: any) => this.errorMessage = <any>error
+        );
+      }
+    }
   }
 
-  onCancel() {
+  onSave() {
+    if (this.productForm.dirty && this.productForm.valid) {
+      // Copy the form values over the product object values.
+      const p = Object.assign({}, this.product, this.productForm.value);
+
+      this.productService.saveProduct(p).subscribe(
+        () => this.onSaveComplete(),
+        (error: any) => this.errorMessage = <any>error
+      );
+    } else if (!this.productForm.dirty) {
+      this.resetThenGotoProducts();
+    }
+  }
+
+  onSaveComplete(): void {
+    this.resetThenGotoProducts();
+  }
+
+  onCancel(): void {
+    this.resetThenGotoProducts();
+  }
+
+  resetThenGotoProducts(): void {
     // Reset the form to clear the flags
     this.productForm.reset();
     this.router.navigate(['/products']);
