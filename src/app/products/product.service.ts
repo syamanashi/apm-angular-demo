@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Http, Response, ResponseType, Headers, RequestOptions } from '@angular/http';
+// TODO: Update this service to utilize HttpClient once in-memory-web-api supports it: https://github.com/angular/in-memory-web-api/issues/122
+//       Or, utilize a different mock API option.
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -13,14 +15,20 @@ import { Product } from './product';
 @Injectable()
 export class ProductService {
 
-  productUrl = './api/products/products.json';
+  baseUrl = './api/products/products.json';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: Http) { }
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.productUrl)
+    // return this.http.get<Product[]>(this.productUrl)
       // .do(data => console.log('All: ' + JSON.stringify(data)))
+      // .catch(this.handleError);
+    return this.http.get(this.baseUrl)
+      .map(this.extractData)
+      .do(data => console.log('getProducts: ' + JSON.stringify(data)))
       .catch(this.handleError);
+    // return this.http.get(this.baseUrl)
+    //   .map((res: any) => res.json());
   }
 
   getProduct(id: number | string): Observable<Product> {
@@ -34,6 +42,9 @@ export class ProductService {
   }
 
   saveProduct(product: Product): Observable<Product> {
+    // const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // this.http.get('http://www.google.com', {headers} )
+
     console.log(product);
     return Observable.of(product);
   }
@@ -43,20 +54,26 @@ export class ProductService {
     return Observable.of(+id);
   }
 
-  private handleError(err: HttpErrorResponse): Observable<Error> {
+  private extractData(response: Response) {
+    const body = response.json();
+    return body || {};
+    // return body.data || {};
+  }
+
+  private handleError(error: Response): Observable<any> {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
     let errorMessage = '';
-    if (err.error instanceof Error) {
+    if (error.type === ResponseType.Error) {
       // A client-side or network error occurred. Handle it accordingly.
-      errorMessage = `An error occurred: ${err.error.message}`;
+      errorMessage = `An error occurred: ${error.toString()}`;
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+      errorMessage = `Server returned code: ${error.statusText}, error message is: ${error.toString()}`;
     }
     console.error(errorMessage);
-    return Observable.throw(errorMessage);
+    return Observable.throw(error.json().error || errorMessage);
   }
 
   initializeProduct(): Product {
