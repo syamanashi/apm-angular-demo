@@ -1,3 +1,6 @@
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryProductDataService } from './product-data.mock';
+
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -16,6 +19,7 @@ import { ProductEditComponent } from './product-edit/product-edit.component';
     ReactiveFormsModule,
     SharedModule,
     ProductRoutingModule,
+    InMemoryWebApiModule.forRoot(InMemoryProductDataService), // TODO: Always remove this before going to "production".
   ],
   declarations: [
     ProductListComponent,

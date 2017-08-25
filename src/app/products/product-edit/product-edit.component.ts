@@ -103,7 +103,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getProduct(id: number): void {
     this.productService.getProduct(id).subscribe(
-      (product: Product) => this.onProductRetrieved(product),
+      (product: Product) => this.onProductRetrieved(product), // Fires when getProduct() returns a Product.
       (error: any) => this.errorMessage = <any>error
     );
   }

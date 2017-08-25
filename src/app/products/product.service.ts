@@ -15,36 +15,31 @@ import { Product } from './product';
 @Injectable()
 export class ProductService {
 
-  baseUrl = './api/products/products.json';
+  private baseUrl = 'api/products';
 
   constructor(private http: Http) { }
 
   getProducts(): Observable<Product[]> {
-    // return this.http.get<Product[]>(this.productUrl)
-      // .do(data => console.log('All: ' + JSON.stringify(data)))
-      // .catch(this.handleError);
     return this.http.get(this.baseUrl)
       .map(this.extractData)
       .do(data => console.log('getProducts: ' + JSON.stringify(data)))
       .catch(this.handleError);
-    // return this.http.get(this.baseUrl)
-    //   .map((res: any) => res.json());
   }
 
   getProduct(id: number | string): Observable<Product> {
     if (id === 0) {
+      // Return a newly initialized product.
+      // Note: Often the backend API server is set up to return a newly initialized item.  In that case, this block of code would not be needed.
       return Observable.of(this.initializeProduct());
     }
-
-    // return this.getProducts().map(products => products.filter(product => product.id === +id)[0])
-    return this.getProducts().map((products: Product[]) => products.find(product => product.id === +id))
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.get(url)
+      .map(this.extractData)
+      .do(data => console.log('getProduct(' + id + '): ' + JSON.stringify(data)))
       .catch(this.handleError);
   }
 
   saveProduct(product: Product): Observable<Product> {
-    // const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    // this.http.get('http://www.google.com', {headers} )
-
     console.log(product);
     return Observable.of(product);
   }
@@ -55,9 +50,9 @@ export class ProductService {
   }
 
   private extractData(response: Response) {
+    // If needed, you can enhance returned data in this method (i.e. Alphabetize the search tags; Calculate the number of days since product was released/created, etc).
     const body = response.json();
-    return body || {};
-    // return body.data || {};
+    return body.data || {};
   }
 
   private handleError(error: Response): Observable<any> {
@@ -76,7 +71,7 @@ export class ProductService {
     return Observable.throw(error.json().error || errorMessage);
   }
 
-  initializeProduct(): Product {
+  private initializeProduct(): Product {
     // Return an initialized object
     return {
         id: 0,
@@ -87,6 +82,7 @@ export class ProductService {
         description: null,
         starRating: null,
         imageUrl: null,
+        tags: [''],
     };
 }
 
