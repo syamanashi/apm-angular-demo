@@ -24,7 +24,7 @@ export class ProductDetailComponent implements OnInit {
     this.pageTitle += `: ${id}`;
     this.productService.getProduct(id).subscribe(data => {
       this.product = data;
-      console.log(this.product);
+      // console.log(this.product);
     });
   }
 

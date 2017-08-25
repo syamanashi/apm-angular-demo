@@ -134,41 +134,41 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
   onDelete() {
     if (this.product.id === 0 ) {
       // Don't delete. It was never saved.
-      this.resetThenGotoProducts();
+      this.resetFormGotoProducts();
     } else {
       if (confirm(`Really delete the product: ${this.product.productName}?`)) {
         this.productService.deleteProduct(this.product.id).subscribe(
-          () => this.resetThenGotoProducts(),
+          () => this.resetFormGotoProducts(),
           (error: any) => this.errorMessage = <any>error
         );
       }
     }
   }
 
-  onSave() {
+  onSave(): void {
     if (this.productForm.dirty && this.productForm.valid) {
-      // Copy the form values over the product object values.
-      const p = Object.assign({}, this.product, this.productForm.value);
+      // Copy the form values over the product object values.  This gives us all of the original product object values (including product.id) and then overrides them with any updated productForm values from the user.
+      const product = Object.assign({}, this.product, this.productForm.value);
 
-      this.productService.saveProduct(p).subscribe(
-        () => this.onSaveComplete(),
+      this.productService.saveProduct(product).subscribe(
+        () => this.onSaveComplete(), // In this case, we don't care about the returned data so we do not reference it in () =>
         (error: any) => this.errorMessage = <any>error
       );
     } else if (!this.productForm.dirty) {
-      this.resetThenGotoProducts();
+      this.resetFormGotoProducts();
     }
   }
 
-  onSaveComplete(): void {
-    this.resetThenGotoProducts();
+  private onSaveComplete(): void {
+    this.resetFormGotoProducts();
   }
 
   onCancel(): void {
-    this.resetThenGotoProducts();
+    this.resetFormGotoProducts();
   }
 
-  resetThenGotoProducts(): void {
-    // Reset the form to clear the flags
+  resetFormGotoProducts(): void {
+    // Reset the form to clear the flags and dirty status.
     this.productForm.reset();
     this.router.navigate(['/products']);
   }

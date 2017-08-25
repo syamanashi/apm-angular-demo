@@ -22,7 +22,7 @@ export class ProductService {
   getProducts(): Observable<Product[]> {
     return this.http.get(this.baseUrl)
       .map(this.extractData)
-      .do(data => console.log('getProducts: ' + JSON.stringify(data)))
+      // .do(data => console.log('getProducts: ' + JSON.stringify(data)))
       .catch(this.handleError);
   }
 
@@ -35,18 +35,41 @@ export class ProductService {
     const url = `${this.baseUrl}/${id}`;
     return this.http.get(url)
       .map(this.extractData)
-      .do(data => console.log('getProduct(' + id + '): ' + JSON.stringify(data)))
+      // .do(data => console.log('getProduct(' + id + '): ' + JSON.stringify(data)))
       .catch(this.handleError);
   }
 
   saveProduct(product: Product): Observable<Product> {
-    console.log(product);
-    return Observable.of(product);
+    // console.log(product);
+    // return Observable.of(product);
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+
+    if (product.id === 0) {
+      return this.createProduct(product, options);
+    }
+    return this.updateProduct(product, options);
   }
 
   deleteProduct(id: number | string): Observable<number> {
     console.log(id + ' deleted!');
     return Observable.of(+id);
+  }
+
+  private createProduct(product: Product, options: RequestOptions): Observable<Product> {
+    product.id = undefined;
+    return this.http.post(this.baseUrl, product, options)
+      .map(this.extractData)
+      // .do(data => console.log('createProduct: ' + JSON.stringify(data)))
+      .catch(this.handleError);
+  }
+
+  private updateProduct(product: Product, options: RequestOptions): Observable<Product> {
+    const url = `${this.baseUrl}/${product.id}`;
+    return this.http.put(url, product, options)
+      .map(() => product) // Since the angular-in-memory-web-api service does not return the updated product (which might be very useful if the server sets a LastUpdateDate for example) and really just returns a header with a status 204 ok...., map the response to this method's passed in product: Product.
+      .do(data => console.log('createProduct: ' + JSON.stringify(data)))
+      .catch(this.handleError);
   }
 
   private extractData(response: Response) {
@@ -74,16 +97,16 @@ export class ProductService {
   private initializeProduct(): Product {
     // Return an initialized object
     return {
-        id: 0,
-        productName: null,
-        productCode: null,
-        releaseDate: null,
-        price: null,
-        description: null,
-        starRating: null,
-        imageUrl: null,
-        tags: [''],
+      id: 0,
+      productName: null,
+      productCode: null,
+      releaseDate: null,
+      price: null,
+      description: null,
+      starRating: null,
+      imageUrl: null,
+      tags: [''],
     };
-}
+  }
 
 }
