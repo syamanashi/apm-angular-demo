@@ -3,10 +3,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ProductRoutingModule } from './product-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { ProductListComponent } from './product-list/product-list.component';
+
 import { ProductService } from './product.service';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductDetailGuard, ProductEditGuard } from './product.guard';
+
+import { ProductListComponent } from './product-list/product-list.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
 
 @NgModule({
@@ -21,6 +23,10 @@ import { ProductEditComponent } from './product-edit/product-edit.component';
     ProductEditComponent,
   ],
   exports: [],
-  providers: [ProductService, ProductDetailGuard, ProductEditGuard],
+  providers: [
+    ProductService,
+    ProductDetailGuard,
+    ProductEditGuard,
+  ],
 })
 export class ProductsModule { }

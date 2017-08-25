@@ -23,8 +23,6 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
-  private paramsSubscription: Subscription;
-
   pageTitle = 'Edit Product';
   errorMessage: string;
   productForm: FormGroup;
@@ -32,8 +30,11 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Use with the generic validation message class
   displayMessage: { [key: string]: string } = {};
+
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidatator: GenericValidator;
+
+  private paramsSubscription: Subscription;
 
   get tags(): FormArray {
     return <FormArray>this.productForm.get('tags');
