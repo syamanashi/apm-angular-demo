@@ -51,13 +51,19 @@ export class ProductService {
     return this.updateProduct(product, options);
   }
 
-  deleteProduct(id: number | string): Observable<number> {
-    console.log(id + ' deleted!');
-    return Observable.of(+id);
+  deleteProduct(id: number | string): Observable<Response> {
+    // In most real world solutions, we'd rather be updating product.deleted to true or product.status to 'deleted' rather than performing this hard delete.
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.delete(url, options)
+      .do(data => console.log('deleteProduct: ' + JSON.stringify(data)))
+      .catch(this.handleError);
   }
 
   private createProduct(product: Product, options: RequestOptions): Observable<Product> {
-    product.id = undefined;
+    product.id = undefined; // angular-in-memory-web-api requires an id of undefined before it will assign a unique id.
     return this.http.post(this.baseUrl, product, options)
       .map(this.extractData)
       // .do(data => console.log('createProduct: ' + JSON.stringify(data)))
@@ -68,7 +74,7 @@ export class ProductService {
     const url = `${this.baseUrl}/${product.id}`;
     return this.http.put(url, product, options)
       .map(() => product) // Since the angular-in-memory-web-api service does not return the updated product (which might be very useful if the server sets a LastUpdateDate for example) and really just returns a header with a status 204 ok...., map the response to this method's passed in product: Product.
-      .do(data => console.log('createProduct: ' + JSON.stringify(data)))
+      // .do(data => console.log('createProduct: ' + JSON.stringify(data)))
       .catch(this.handleError);
   }
 
