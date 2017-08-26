@@ -19,7 +19,7 @@ import { ProductEditComponent } from './product-edit/product-edit.component';
     ReactiveFormsModule,
     SharedModule,
     ProductRoutingModule,
-    InMemoryWebApiModule.forRoot(InMemoryProductDataService), // TODO: Always remove this before going to "production".
+    InMemoryWebApiModule.forRoot(InMemoryProductDataService, { delay: 0 }), // TODO: Always remove this before going to "production".
   ],
   declarations: [
     ProductListComponent,
