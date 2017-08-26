@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 /* Feature Modules */
 import { ProductsModule } from './products/products.module';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { UserModule } from './user/user.module';
+import { MessagesModule } from './messages/messages.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { PageNotFoundComponent } from './page-not-found.component';
     // HttpClientModule,
     HttpModule,
     ProductsModule,
+    UserModule,
     AppRoutingModule,
+    MessagesModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
