@@ -9,7 +9,7 @@ import { ProductEditComponent } from './product-edit/product-edit.component';
 const productRoutes: Routes = [
   { path: 'products', component: ProductListComponent },
   { path: 'products/:id', canActivate: [ ProductDetailGuard ], component: ProductDetailComponent },
-  { path: 'productEdit/:id', canDeactivate: [ ProductEditGuard ], component: ProductEditComponent },
+  { path: 'products/:id/edit', canDeactivate: [ ProductEditGuard ], component: ProductEditComponent },
 ];
 
 @NgModule({
