@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AuthService } from './user/auth.service';
 
@@ -10,10 +11,14 @@ import { AuthService } from './user/auth.service';
 export class AppComponent {
   pageTitle = 'Acme Product Management';
 
-  constructor(public authService: AuthService) { }
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+  ) { }
 
   onLogout(): void {
     this.authService.logout();
+    this.router.navigateByUrl('/welcome'); // Use navigateByUrl to ensure that every URL parameter or secondary route is removed when the user logs out.
   }
 
 }

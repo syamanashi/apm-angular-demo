@@ -25,8 +25,8 @@ import { MessagesModule } from './messages/messages.module';
     HttpModule,
     ProductsModule,
     UserModule,
-    AppRoutingModule,
     MessagesModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
