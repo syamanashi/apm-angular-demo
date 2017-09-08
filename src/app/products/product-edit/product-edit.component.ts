@@ -74,6 +74,11 @@ export class ProductEditComponent implements OnInit, AfterViewInit {
       description: ''
     });
 
+    //  Reading Resolver Data - Observable
+    this.route.data.subscribe(data => {
+      this.onProductRetrieved(data['product']); // We are only notified when the resolver Re-fetches data - not if our code changes that data.
+    })
+
     // Read the product Id from the route parameter's params observable.
     // this.paramsSubscription = this.route.params.subscribe((params)  => {
     //   const id = +params['id'];
@@ -81,12 +86,12 @@ export class ProductEditComponent implements OnInit, AfterViewInit {
     // });
 
     // Alternatively, use a .switchMap on the route.paramMap (v4+) observable as this operator can cancel in-flight network requests.
-    this.route.paramMap
-      .switchMap((params: ParamMap) => this.productService.getProduct(params.get('id')))
-      .subscribe(
-        (product: Product) => this.onProductRetrieved(product),
-        (error: any) => this.errorMessage = <any>error
-      );
+    // this.route.paramMap
+    //   .switchMap((params: ParamMap) => this.productService.getProduct(params.get('id')))
+    //   .subscribe(
+    //     (product: Product) => this.onProductRetrieved(product),
+    //     (error: any) => this.errorMessage = <any>error
+    //   );
   }
 
   ngAfterViewInit() {
@@ -104,12 +109,12 @@ export class ProductEditComponent implements OnInit, AfterViewInit {
     this.tags.push(new FormControl());
   }
 
-  getProduct(id: number): void {
-    this.productService.getProduct(id).subscribe(
-      (product: Product) => this.onProductRetrieved(product), // Fires when getProduct() returns a Product.
-      (error: any) => this.errorMessage = <any>error
-    );
-  }
+  // getProduct(id: number): void {
+  //   this.productService.getProduct(id).subscribe(
+  //     (product: Product) => this.onProductRetrieved(product), // Fires when getProduct() returns a Product.
+  //     (error: any) => this.errorMessage = <any>error
+  //   );
+  // }
 
   private onProductRetrieved(product: Product): void {
     // Reset the form if the form is loaded.

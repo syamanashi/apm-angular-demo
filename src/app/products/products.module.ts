@@ -13,13 +13,14 @@ import { ProductDetailGuard, ProductEditGuard } from './product.guard';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
+import { ProductResolverService } from './product-resolver.service';
 
 @NgModule({
   imports: [
     ReactiveFormsModule,
     SharedModule,
     ProductRoutingModule,
-    InMemoryWebApiModule.forRoot(InMemoryProductDataService, { delay: 0 }), // TODO: Always remove this before going to "production".
+    InMemoryWebApiModule.forRoot(InMemoryProductDataService, { delay: 1000 }), // TODO: Always remove this before going to "production".
   ],
   declarations: [
     ProductListComponent,
@@ -31,6 +32,7 @@ import { ProductEditComponent } from './product-edit/product-edit.component';
     ProductService,
     ProductDetailGuard,
     ProductEditGuard,
+    ProductResolverService,
   ],
 })
 export class ProductsModule { }
