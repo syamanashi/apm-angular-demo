@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, FormArray, Validators, FormControlName } from '@angular/forms';
-import { ActivatedRoute, Router  } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/switchMap'; // Used to process the Observable route parameters.
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
 import { Observable } from 'rxjs/Observable';
@@ -19,7 +20,7 @@ import { GenericValidator } from '../../shared/generic.validator';
   templateUrl: './product-edit.component.html',
   styleUrls: ['./product-edit.component.scss']
 })
-export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ProductEditComponent implements OnInit, AfterViewInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
@@ -33,8 +34,6 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidatator: GenericValidator;
-
-  private paramsSubscription: Subscription;
 
   get tags(): FormArray {
     return <FormArray>this.productForm.get('tags');
@@ -75,15 +74,19 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       description: ''
     });
 
-    // Read the product Id from the route parameter
-    this.paramsSubscription = this.route.params.subscribe(params => {
-      const id = +params['id'];
-      this.getProduct(id);
-    });
-  }
+    // Read the product Id from the route parameter's params observable.
+    // this.paramsSubscription = this.route.params.subscribe((params)  => {
+    //   const id = +params['id'];
+    //   this.getProduct(id);
+    // });
 
-  ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+    // Alternatively, use a .switchMap on the route.paramMap (v4+) observable as this operator can cancel in-flight network requests.
+    this.route.paramMap
+      .switchMap((params: ParamMap) => this.productService.getProduct(params.get('id')))
+      .subscribe(
+        (product: Product) => this.onProductRetrieved(product),
+        (error: any) => this.errorMessage = <any>error
+      );
   }
 
   ngAfterViewInit() {

@@ -16,7 +16,8 @@ export class InMemoryProductDataService implements InMemoryDbService {
         price: 19.95,
         starRating: 3.2,
         imageUrl: 'http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png',
-        tags: ['rake', 'leaf', 'yard', 'home']
+        tags: ['rake', 'leaf', 'yard', 'home'],
+        category: 'Garden'
       },
       {
         id: 2,
@@ -26,7 +27,8 @@ export class InMemoryProductDataService implements InMemoryDbService {
         description: '15 gallon capacity rolling garden cart',
         price: 32.99,
         starRating: 4.2,
-        imageUrl: 'http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png'
+        imageUrl: 'http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png',
+        category: 'Garden'
       },
       {
         id: 5,
@@ -37,7 +39,8 @@ export class InMemoryProductDataService implements InMemoryDbService {
         price: 8.9,
         starRating: 4.8,
         imageUrl: 'http://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png',
-        tags: ['tools', 'hammer', 'construction']
+        tags: ['tools', 'hammer', 'construction'],
+        category: 'Toolbox'
       },
       {
         id: 8,
@@ -47,7 +50,8 @@ export class InMemoryProductDataService implements InMemoryDbService {
         description: '15-inch steel blade hand saw',
         price: 11.55,
         starRating: 3.7,
-        imageUrl: 'http://openclipart.org/image/300px/svg_to_png/27070/egore911_saw.png'
+        imageUrl: 'http://openclipart.org/image/300px/svg_to_png/27070/egore911_saw.png',
+        category: 'Toolbox'
       },
       {
         id: 10,
@@ -57,7 +61,8 @@ export class InMemoryProductDataService implements InMemoryDbService {
         description: 'Standard two-button video game controller',
         price: 35.95,
         starRating: 4.6,
-        imageUrl: 'http://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png'
+        imageUrl: 'http://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png',
+        category: 'Gaming'
       }
     ];
     return { products };

@@ -27,7 +27,7 @@ export class ProductService {
   }
 
   getProduct(id: number | string): Observable<Product> {
-    if (id === 0) {
+    if (+id === 0) {
       // Return a newly initialized product.
       // Note: Often the backend API server is set up to return a newly initialized item.  In that case, this block of code would not be needed.
       return Observable.of(this.initializeProduct());

@@ -12,6 +12,7 @@ export class ProductDetailComponent implements OnInit {
 
   pageTitle = 'Product Detail';
   product: Product;
+  errorMessage: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,15 +22,20 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
+    // const id = +this.route.snapshot.params['id'];
     this.pageTitle += `: ${id}`;
-    this.productService.getProduct(id).subscribe(data => {
-      this.product = data;
-      // console.log(this.product);
-    });
+    this.getProduct(id);
   }
 
   onBack(): void {
-    this.router.navigate(['/products']);
+    this.router.navigate(['/products'], { queryParamsHandling: 'preserve' });
+  }
+
+  getProduct(id: number): void {
+    this.productService.getProduct(id).subscribe(
+      (product: Product) => this.product = product,
+      (error: any) => this.errorMessage = <any>error
+    );
   }
 
 }

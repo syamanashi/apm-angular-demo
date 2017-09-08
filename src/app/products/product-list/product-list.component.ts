@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
@@ -29,7 +30,10 @@ export class ProductListComponent implements OnInit {
   filteredProducts: Product[] = [];
   errorMessage: string;
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
     this.productService.getProducts().subscribe(data => {
@@ -38,6 +42,10 @@ export class ProductListComponent implements OnInit {
     },
       error => this.errorMessage = <any>error
     );
+
+    // Reading query parameters.
+    this.listFilter = this.route.snapshot.queryParams['filterBy'] || '';
+    this.showImage = this.route.snapshot.queryParams['showImage'] === 'true'; // Parameters are always strings.
   }
 
   toggleImage() {
